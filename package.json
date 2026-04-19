@@ -1,0 +1,103 @@
+{
+  "name": "@keyan/vscode-todo",
+  "displayName": "Todo (Markdown)",
+  "description": "Read workspace TODO.md and show tasks in a sidebar tree view.",
+  "version": "0.1.0",
+  "private": true,
+  "publisher": "keyan",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "todoMd",
+          "title": "Todo",
+          "icon": "$(checklist)"
+        }
+      ]
+    },
+    "views": {
+      "todoMd": [
+        {
+          "id": "todoMd.tree",
+          "name": "TODO.md",
+          "contextualTitle": "Todo"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "todoMd.tree",
+        "contents": "No workspace folder open.\n[Open Folder](command:workbench.action.files.openFolder)",
+        "when": "!workbenchState || workbenchState == 'empty'"
+      },
+      {
+        "view": "todoMd.tree",
+        "contents": "No TODO.md found in workspace root.\n[Create TODO.md](command:todoMd.createFile)",
+        "when": "workbenchState != 'empty' && todoMd.fileMissing"
+      }
+    ],
+    "commands": [
+      { "command": "todoMd.refresh",    "title": "Todo: Refresh",            "icon": "$(refresh)" },
+      { "command": "todoMd.openFile",   "title": "Todo: Open TODO.md",       "icon": "$(go-to-file)" },
+      { "command": "todoMd.createFile", "title": "Todo: Create TODO.md" },
+      { "command": "todoMd.reveal",     "title": "Todo: Reveal Item" },
+      { "command": "todoMd.toggle",     "title": "Todo: Toggle Checkbox",    "icon": "$(check)" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "todoMd.refresh",  "when": "view == todoMd.tree", "group": "navigation@1" },
+        { "command": "todoMd.openFile", "when": "view == todoMd.tree", "group": "navigation@2" }
+      ],
+      "view/item/context": [
+        { "command": "todoMd.toggle", "when": "view == todoMd.tree && viewItem == todoItem", "group": "inline" }
+      ],
+      "commandPalette": [
+        { "command": "todoMd.reveal", "when": "false" }
+      ]
+    },
+    "configuration": {
+      "title": "Todo (Markdown)",
+      "properties": {
+        "todoMd.file": {
+          "type": "string",
+          "default": "TODO.md",
+          "description": "Relative path from workspace folder. Supports ${workspaceFolder} and ${workspaceFolder:name}."
+        },
+        "todoMd.collapsedSections": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["已决定不做", "最近完成", "已完成"],
+          "description": "Section titles (case-insensitive substring match) collapsed by default."
+        },
+        "todoMd.maxFileSizeKb": {
+          "type": "number",
+          "default": 1024,
+          "description": "Skip parsing if TODO.md exceeds this size (KB)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs --production",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "package": "vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.1.0"
+  }
+}
