@@ -130,7 +130,13 @@ async function toggle(arg: unknown): Promise<void> {
       replaced,
     )
     const ok = await vscode.workspace.applyEdit(edit)
-    if (!ok) logger.warn('applyEdit returned false')
+    if (!ok) {
+      logger.warn('applyEdit returned false')
+      return
+    }
+    // Vibe coding 场景：切勾即落盘，省得用户还得 Cmd+S。
+    // 若 doc 此前有别的未保存修改，这里会一起保存；用户如有顾虑可 Cmd+Z 回退。
+    if (doc.isDirty) await doc.save()
   } catch (err) {
     logger.error('toggle failed', err)
   }
