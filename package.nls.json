@@ -1,0 +1,23 @@
+{
+  "ext.description": "Read workspace TODO.md and show tasks in a sidebar tree view.",
+  "activitybar.title": "Todo",
+  "view.contextualTitle": "Todo",
+  "welcome.noWorkspace": "No workspace folder open.\n[Open Folder](command:workbench.action.files.openFolder)",
+  "welcome.noFile": "No TODO.md found in workspace root.\n[Create TODO.md](command:todoMd.createFile)",
+  "cmd.refresh.title": "Todo: Refresh",
+  "cmd.openFile.title": "Todo: Open TODO.md",
+  "cmd.openSettings.title": "Todo: Open Settings",
+  "cmd.createFile.title": "Todo: Create TODO.md",
+  "cmd.reveal.title": "Todo: Reveal Item",
+  "cmd.toggle.title": "Todo: Toggle Checkbox",
+  "cmd.reopen.title": "Todo: Reopen Item",
+  "config.title": "Todo (Markdown)",
+  "config.file.description": "Relative path from workspace folder. Supports ${workspaceFolder} and ${workspaceFolder:name}.",
+  "config.collapsedSections.description": "Section titles (case-insensitive substring match) collapsed by default.",
+  "config.maxFileSizeKb.description": "Skip parsing if TODO.md exceeds this size (KB).",
+  "config.showDoneDescription.description": "Show 'done' suffix on completed items in the tree.",
+  "config.hideEmptyGroups.description": "When to hide group headers in the tree.",
+  "config.hideEmptyGroups.never": "Always show all group headers, even empty ones.",
+  "config.hideEmptyGroups.noItems": "Hide group headers that have no checkbox items under them (default).",
+  "config.hideEmptyGroups.noPending": "Also hide group headers whose items are all completed (no pending items)."
+}

@@ -1,7 +1,7 @@
 {
   "name": "@keyan/vscode-todo",
   "displayName": "Todo (Markdown)",
-  "description": "Read workspace TODO.md and show tasks in a sidebar tree view.",
+  "description": "%ext.description%",
   "version": "0.1.0",
   "private": true,
   "publisher": "keyan",
@@ -18,7 +18,7 @@
       "activitybar": [
         {
           "id": "todoMd",
-          "title": "Todo",
+          "title": "%activitybar.title%",
           "icon": "$(checklist)"
         }
       ]
@@ -28,30 +28,30 @@
         {
           "id": "todoMd.tree",
           "name": "TODO.md",
-          "contextualTitle": "Todo"
+          "contextualTitle": "%view.contextualTitle%"
         }
       ]
     },
     "viewsWelcome": [
       {
         "view": "todoMd.tree",
-        "contents": "No workspace folder open.\n[Open Folder](command:workbench.action.files.openFolder)",
+        "contents": "%welcome.noWorkspace%",
         "when": "!workbenchState || workbenchState == 'empty'"
       },
       {
         "view": "todoMd.tree",
-        "contents": "No TODO.md found in workspace root.\n[Create TODO.md](command:todoMd.createFile)",
+        "contents": "%welcome.noFile%",
         "when": "workbenchState != 'empty' && todoMd.fileMissing"
       }
     ],
     "commands": [
-      { "command": "todoMd.refresh",      "title": "Todo: Refresh",            "icon": "$(refresh)" },
-      { "command": "todoMd.openFile",     "title": "Todo: Open TODO.md",       "icon": "$(go-to-file)" },
-      { "command": "todoMd.openSettings", "title": "Todo: Open Settings",      "icon": "$(settings-gear)" },
-      { "command": "todoMd.createFile",   "title": "Todo: Create TODO.md" },
-      { "command": "todoMd.reveal",       "title": "Todo: Reveal Item" },
-      { "command": "todoMd.toggle",       "title": "Todo: Toggle Checkbox",    "icon": "$(check)" },
-      { "command": "todoMd.reopen",       "title": "Todo: Reopen Item",        "icon": "$(circle-slash)" }
+      { "command": "todoMd.refresh",      "title": "%cmd.refresh.title%",      "icon": "$(refresh)" },
+      { "command": "todoMd.openFile",     "title": "%cmd.openFile.title%",     "icon": "$(go-to-file)" },
+      { "command": "todoMd.openSettings", "title": "%cmd.openSettings.title%", "icon": "$(settings-gear)" },
+      { "command": "todoMd.createFile",   "title": "%cmd.createFile.title%" },
+      { "command": "todoMd.reveal",       "title": "%cmd.reveal.title%" },
+      { "command": "todoMd.toggle",       "title": "%cmd.toggle.title%",       "icon": "$(check)" },
+      { "command": "todoMd.reopen",       "title": "%cmd.reopen.title%",       "icon": "$(circle-slash)" }
     ],
     "menus": {
       "view/title": [
@@ -70,39 +70,39 @@
       ]
     },
     "configuration": {
-      "title": "Todo (Markdown)",
+      "title": "%config.title%",
       "properties": {
         "todoMd.file": {
           "type": "string",
           "default": "TODO.md",
-          "description": "Relative path from workspace folder. Supports ${workspaceFolder} and ${workspaceFolder:name}."
+          "description": "%config.file.description%"
         },
         "todoMd.collapsedSections": {
           "type": "array",
           "items": { "type": "string" },
           "default": ["已决定不做", "最近完成", "已完成"],
-          "description": "Section titles (case-insensitive substring match) collapsed by default."
+          "description": "%config.collapsedSections.description%"
         },
         "todoMd.maxFileSizeKb": {
           "type": "number",
           "default": 1024,
-          "description": "Skip parsing if TODO.md exceeds this size (KB)."
+          "description": "%config.maxFileSizeKb.description%"
         },
         "todoMd.showDoneDescription": {
           "type": "boolean",
           "default": true,
-          "description": "Show 'done' suffix on completed items in the tree."
+          "description": "%config.showDoneDescription.description%"
         },
         "todoMd.hideEmptyGroups": {
           "type": "string",
           "enum": ["never", "noItems", "noPending"],
           "enumDescriptions": [
-            "Always show all group headers, even empty ones.",
-            "Hide group headers that have no checkbox items under them (default).",
-            "Also hide group headers whose items are all completed (no pending items)."
+            "%config.hideEmptyGroups.never%",
+            "%config.hideEmptyGroups.noItems%",
+            "%config.hideEmptyGroups.noPending%"
           ],
           "default": "noItems",
-          "description": "When to hide group headers in the tree."
+          "description": "%config.hideEmptyGroups.description%"
         }
       }
     }

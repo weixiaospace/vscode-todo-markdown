@@ -1,0 +1,23 @@
+{
+  "ext.description": "读取 workspace 根的 TODO.md 并在侧栏以 TreeView 展示任务。",
+  "activitybar.title": "待办",
+  "view.contextualTitle": "待办",
+  "welcome.noWorkspace": "未打开工作区文件夹。\n[打开文件夹](command:workbench.action.files.openFolder)",
+  "welcome.noFile": "工作区根目录未找到 TODO.md。\n[创建 TODO.md](command:todoMd.createFile)",
+  "cmd.refresh.title": "待办：刷新",
+  "cmd.openFile.title": "待办：打开 TODO.md",
+  "cmd.openSettings.title": "待办：打开设置",
+  "cmd.createFile.title": "待办：创建 TODO.md",
+  "cmd.reveal.title": "待办：跳转到条目",
+  "cmd.toggle.title": "待办：切换勾选",
+  "cmd.reopen.title": "待办：取消完成",
+  "config.title": "Todo（Markdown）",
+  "config.file.description": "相对工作区根的路径，支持 ${workspaceFolder} 与 ${workspaceFolder:name} 占位符。",
+  "config.collapsedSections.description": "默认折叠的分组标题（大小写不敏感的子串匹配）。",
+  "config.maxFileSizeKb.description": "TODO.md 超过此大小（KB）时跳过解析。",
+  "config.showDoneDescription.description": "已完成条目在树中显示 “done” 后缀。",
+  "config.hideEmptyGroups.description": "何时隐藏分组标题。",
+  "config.hideEmptyGroups.never": "总是显示所有分组标题，即便为空。",
+  "config.hideEmptyGroups.noItems": "隐藏没有任何 checkbox 条目的分组（默认）。",
+  "config.hideEmptyGroups.noPending": "再进一步，把条目全部完成的分组也隐藏。"
+}
