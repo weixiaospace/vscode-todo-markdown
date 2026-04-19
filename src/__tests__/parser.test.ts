@@ -38,3 +38,45 @@ describe('parseTodoMarkdown — basics', () => {
     expect(g.totalOpen).toBe(1)
   })
 })
+
+describe('parseTodoMarkdown — nested groups', () => {
+  it('nests ### under its enclosing ##', () => {
+    const input = [
+      '## 📅 计划',
+      '### 编辑器',
+      '- [ ] DOCX 导出',
+      '- [ ] 交叉引用',
+      '### 文献',
+      '- [ ] AI 搜索',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    expect(tree).toHaveLength(1)
+    const plan = tree[0]
+    if (plan.kind !== 'group') throw new Error('expected group')
+    expect(plan.title).toBe('计划')
+    expect(plan.children).toHaveLength(2)
+    const editor = plan.children[0]
+    const lit = plan.children[1]
+    if (editor.kind !== 'group' || lit.kind !== 'group') throw new Error('expected groups')
+    expect(editor.level).toBe(2)
+    expect(editor.children).toHaveLength(2)
+    expect(lit.children).toHaveLength(1)
+    expect(plan.totalOpen).toBe(3)
+  })
+
+  it('ignores #### and deeper (no group created, items keep attaching)', () => {
+    const input = [
+      '## 计划',
+      '### 编辑器',
+      '#### 子子标题',
+      '- [ ] inner task',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    const plan = tree[0]
+    if (plan.kind !== 'group') throw new Error('expected group')
+    const editor = plan.children[0]
+    if (editor.kind !== 'group') throw new Error('expected group')
+    expect(editor.children).toHaveLength(1)
+    expect(editor.children[0].kind).toBe('item')
+  })
+})
