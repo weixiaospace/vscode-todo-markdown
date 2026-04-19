@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { parseTodoMarkdown } from '../parser'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 describe('parseTodoMarkdown — basics', () => {
   it('parses ## group with unchecked items', () => {
@@ -207,5 +209,34 @@ describe('parseTodoMarkdown — edge cases', () => {
     expect(hashes[0]).toBe(hashes[1]) // same input → same hash
     expect(hashes[0]).not.toBe(hashes[2])
     expect(hashes[0]).toHaveLength(8)
+  })
+})
+
+describe('parseTodoMarkdown — real fixture', () => {
+  it('matches expected shape for real-todo.md', () => {
+    const src = readFileSync(
+      resolve(__dirname, 'fixtures/real-todo.md'),
+      'utf8',
+    )
+    const tree = parseTodoMarkdown(src)
+    expect(tree.map(n => n.kind === 'group' ? n.title : '')).toEqual([
+      '进行中',
+      '最近完成',
+      '计划',
+      '想法（未决定）',
+      '已决定不做',
+    ])
+    const plan = tree[2]
+    if (plan.kind !== 'group') throw new Error('expected group')
+    expect(plan.children.map(c => c.kind === 'group' ? c.title : '')).toEqual([
+      '编辑器',
+      '文献',
+    ])
+    // 进行中 3 条全未完成 → totalOpen = 3
+    expect((tree[0] as any).totalOpen).toBe(3)
+    // 已决定不做：一个无 checkbox 的项不会被解析进去
+    const skipped = tree[4]
+    if (skipped.kind !== 'group') throw new Error('expected group')
+    expect(skipped.children).toHaveLength(0)
   })
 })
