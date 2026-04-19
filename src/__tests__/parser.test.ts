@@ -113,3 +113,51 @@ describe('parseTodoMarkdown — code fence', () => {
     expect(g.children).toHaveLength(1)
   })
 })
+
+describe('parseTodoMarkdown — input variants', () => {
+  it('accepts -, *, + bullet markers and lowercase/uppercase x', () => {
+    const input = [
+      '## G',
+      '- [ ] dash space',
+      '* [x] star done',
+      '+ [X] plus upper',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    const g = tree[0]
+    if (g.kind !== 'group') throw new Error('expected group')
+    expect(g.children).toHaveLength(3)
+    const [a, b, c] = g.children
+    if (a.kind !== 'item' || b.kind !== 'item' || c.kind !== 'item') {
+      throw new Error('expected items')
+    }
+    expect([a.checked, b.checked, c.checked]).toEqual([false, true, true])
+  })
+
+  it('handles CRLF and BOM', () => {
+    const input = '\uFEFF## G\r\n- [ ] crlf task\r\n'
+    const tree = parseTodoMarkdown(input)
+    const g = tree[0]
+    if (g.kind !== 'group') throw new Error('expected group')
+    expect(g.children).toHaveLength(1)
+    const item = g.children[0]
+    if (item.kind !== 'item') throw new Error('expected item')
+    expect(item.text).toBe('crlf task')
+  })
+
+  it('computes indent level from leading spaces/tabs', () => {
+    const input = [
+      '## G',
+      '- [ ] root',
+      '  - [ ] two-space',
+      '    - [ ] four-space',
+      '\t- [ ] tab',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    const g = tree[0]
+    if (g.kind !== 'group') throw new Error('expected group')
+    const indents = g.children
+      .filter((c): c is import('../types').ItemNode => c.kind === 'item')
+      .map(c => c.indent)
+    expect(indents).toEqual([0, 1, 2, 1])
+  })
+})
