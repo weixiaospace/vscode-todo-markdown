@@ -26,11 +26,16 @@ export function registerCommands(
   context.subscriptions.push(
     vscode.commands.registerCommand('todoMd.refresh', () => watcher.refresh()),
     vscode.commands.registerCommand('todoMd.openFile', openFile),
+    vscode.commands.registerCommand('todoMd.openSettings', openSettings),
     vscode.commands.registerCommand('todoMd.createFile', createFile),
     vscode.commands.registerCommand('todoMd.reveal', reveal),
     vscode.commands.registerCommand('todoMd.toggle', toggle),
     vscode.commands.registerCommand('todoMd.reopen', toggle),
   )
+}
+
+function openSettings(): Thenable<unknown> {
+  return vscode.commands.executeCommand('workbench.action.openSettings', 'todoMd')
 }
 
 async function openFile(): Promise<void> {
