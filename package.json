@@ -90,6 +90,17 @@
           "type": "boolean",
           "default": true,
           "description": "Show 'done' suffix on completed items in the tree."
+        },
+        "todoMd.hideEmptyGroups": {
+          "type": "string",
+          "enum": ["never", "noItems", "noPending"],
+          "enumDescriptions": [
+            "Always show all group headers, even empty ones.",
+            "Hide group headers that have no checkbox items under them (default).",
+            "Also hide group headers whose items are all completed (no pending items)."
+          ],
+          "default": "noItems",
+          "description": "When to hide group headers in the tree."
         }
       }
     }

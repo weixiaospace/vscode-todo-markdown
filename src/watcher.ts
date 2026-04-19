@@ -65,6 +65,7 @@ export function startWatcher(
         sourceUri: uri,
         collapsedTitles: cfg.get<string[]>('collapsedSections', []),
         showDoneDescription: cfg.get<boolean>('showDoneDescription', true),
+        hideMode: cfg.get<'never' | 'noItems' | 'noPending'>('hideEmptyGroups', 'noItems'),
       })
     } catch (err) {
       logger.error('Parse failed', err)

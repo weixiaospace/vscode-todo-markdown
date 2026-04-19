@@ -1,11 +1,14 @@
 import * as vscode from 'vscode'
 import type { GroupNode, ItemNode, TodoNode } from './types'
 
+export type HideMode = 'never' | 'noItems' | 'noPending'
+
 export interface TreeState {
   nodes: TodoNode[]
   sourceUri: vscode.Uri | null
   collapsedTitles: string[]   // 来自 todoMd.collapsedSections
   showDoneDescription: boolean
+  hideMode: HideMode          // 来自 todoMd.hideEmptyGroups
 }
 
 export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
@@ -17,6 +20,7 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
     sourceUri: null,
     collapsedTitles: [],
     showDoneDescription: true,
+    hideMode: 'noItems',
   }
 
   update(next: Partial<TreeState>): void {
@@ -34,9 +38,17 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
   }
 
   getChildren(node?: TodoNode): TodoNode[] {
-    if (!node) return this.state.nodes
-    if (node.kind === 'group') return node.children
-    return []
+    const list = node
+      ? (node.kind === 'group' ? node.children : [])
+      : this.state.nodes
+    return list.filter(n => n.kind === 'item' || this.shouldShowGroup(n))
+  }
+
+  private shouldShowGroup(g: GroupNode): boolean {
+    if (this.state.hideMode === 'never') return true
+    if (!hasAnyItem(g)) return false
+    if (this.state.hideMode === 'noItems') return true
+    return g.totalOpen > 0
   }
 
   private groupToItem(g: GroupNode): vscode.TreeItem {
@@ -75,4 +87,10 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
       ? vscode.TreeItemCollapsibleState.Collapsed
       : vscode.TreeItemCollapsibleState.Expanded
   }
+}
+
+function hasAnyItem(n: TodoNode): boolean {
+  if (n.kind === 'item') return true
+  for (const c of n.children) if (hasAnyItem(c)) return true
+  return false
 }
