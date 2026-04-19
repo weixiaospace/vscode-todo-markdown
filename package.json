@@ -1,5 +1,5 @@
 {
-  "name": "@keyan/vscode-todo",
+  "name": "keyan-vscode-todo",
   "displayName": "Todo (Markdown)",
   "description": "%ext.description%",
   "version": "0.1.0",
