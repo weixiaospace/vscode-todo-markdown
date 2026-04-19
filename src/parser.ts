@@ -10,9 +10,18 @@ export function parseTodoMarkdown(source: string): TodoNode[] {
   const roots: TodoNode[] = []
   let currentL1: GroupNode | null = null
   let currentL2: GroupNode | null = null
+  let fenceChar: '`' | '~' | null = null
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
+    const fence = detectFence(line)
+    if (fence) {
+      if (fenceChar === null) fenceChar = fence
+      else if (fenceChar === fence) fenceChar = null
+      continue
+    }
+    if (fenceChar !== null) continue
+
     const headingMatch = HEADING_RE.exec(line)
     if (headingMatch) {
       const hashes = headingMatch[1]
@@ -116,4 +125,10 @@ function hashLine(line: string): string {
 
 function stripBom(s: string): string {
   return s.charCodeAt(0) === 0xfeff ? s.slice(1) : s
+}
+
+function detectFence(line: string): '`' | '~' | null {
+  const m = /^(\s*)(```+|~~~+)/.exec(line)
+  if (!m) return null
+  return m[2][0] === '`' ? '`' : '~'
 }

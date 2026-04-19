@@ -80,3 +80,36 @@ describe('parseTodoMarkdown — nested groups', () => {
     expect(editor.children[0].kind).toBe('item')
   })
 })
+
+describe('parseTodoMarkdown — code fence', () => {
+  it('skips items and headings inside ``` fences', () => {
+    const input = [
+      '## Real',
+      '- [ ] real task',
+      '```',
+      '## Fake heading',
+      '- [ ] fake item',
+      '```',
+      '- [ ] another real',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    expect(tree).toHaveLength(1)
+    const g = tree[0]
+    if (g.kind !== 'group') throw new Error('expected group')
+    expect(g.children.map(c => c.kind === 'item' ? c.text : c.title)).toEqual(['real task', 'another real'])
+  })
+
+  it('also respects ~~~ fences', () => {
+    const input = [
+      '## G',
+      '~~~',
+      '- [ ] inside tilde fence',
+      '~~~',
+      '- [ ] outside',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    const g = tree[0]
+    if (g.kind !== 'group') throw new Error('expected group')
+    expect(g.children).toHaveLength(1)
+  })
+})
