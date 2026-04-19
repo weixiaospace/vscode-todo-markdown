@@ -2,6 +2,8 @@ import * as vscode from 'vscode'
 import { logger } from './logger'
 import { resolveTodoFile, fileExists } from './workspace'
 import type { WatcherHandle } from './watcher'
+import { createHash } from 'node:crypto'
+import type { ItemNode } from './types'
 
 const DEFAULT_TEMPLATE = `# 项目待办事项
 
@@ -26,6 +28,7 @@ export function registerCommands(
     vscode.commands.registerCommand('todoMd.openFile', openFile),
     vscode.commands.registerCommand('todoMd.createFile', createFile),
     vscode.commands.registerCommand('todoMd.reveal', reveal),
+    vscode.commands.registerCommand('todoMd.toggle', toggle),
   )
 }
 
@@ -89,4 +92,50 @@ async function reveal(args: RevealArgs | undefined): Promise<void> {
   } catch (err) {
     logger.error('reveal failed', err)
   }
+}
+
+// TreeView 传给 command 的第一个参数：TodoNode（来自 provider.getChildren）
+async function toggle(arg: unknown): Promise<void> {
+  const node = arg as Partial<ItemNode> | undefined
+  if (!node || node.kind !== 'item') {
+    vscode.window.showInformationMessage('Open an item from the Todo tree to toggle it.')
+    return
+  }
+  const resolved = resolveTodoFile()
+  if (!resolved) return
+  try {
+    const doc = await vscode.workspace.openTextDocument(resolved.uri)
+    const lineIdx = node.line ?? -1
+    if (lineIdx < 0 || lineIdx >= doc.lineCount) {
+      warnStale()
+      return
+    }
+    const current = doc.lineAt(lineIdx).text
+    const expectedHash = node.lineHash
+    const currentHash = createHash('sha256').update(current).digest('hex').slice(0, 8)
+    if (expectedHash && expectedHash !== currentHash) {
+      warnStale()
+      await vscode.commands.executeCommand('todoMd.refresh')
+      return
+    }
+    const replaced = current.replace(/\[([ xX])\]/, (_, ch) => `[${ch === ' ' ? 'x' : ' '}]`)
+    if (replaced === current) {
+      logger.warn(`toggle: no checkbox on line ${lineIdx + 1}`)
+      return
+    }
+    const edit = new vscode.WorkspaceEdit()
+    edit.replace(
+      resolved.uri,
+      new vscode.Range(lineIdx, 0, lineIdx, current.length),
+      replaced,
+    )
+    const ok = await vscode.workspace.applyEdit(edit)
+    if (!ok) logger.warn('applyEdit returned false')
+  } catch (err) {
+    logger.error('toggle failed', err)
+  }
+}
+
+function warnStale(): void {
+  vscode.window.showWarningMessage('TODO.md has changed. Refreshing — please try again.')
 }
