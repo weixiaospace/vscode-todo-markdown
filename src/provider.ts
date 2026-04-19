@@ -56,7 +56,7 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
     const label = g.emoji ? `${g.emoji} ${g.title}` : g.title
     const item = new vscode.TreeItem(label, this.resolveCollapsibleState(g))
     item.description = g.totalOpen > 0 ? `(${g.totalOpen})` : undefined
-    item.iconPath = new vscode.ThemeIcon('list-unordered')
+    item.iconPath = new vscode.ThemeIcon(groupProgressIcon(g))
     item.contextValue = 'todoGroup'
     item.tooltip = g.line >= 0 ? `Line ${g.line + 1}` : undefined
     return item
@@ -97,5 +97,27 @@ function hasAnyItem(n: TodoNode): boolean {
   if (n.kind === 'item') return true
   for (const c of n.children) if (hasAnyItem(c)) return true
   return false
+}
+
+function countItems(n: TodoNode): number {
+  if (n.kind === 'item') return 1
+  let sum = 0
+  for (const c of n.children) sum += countItems(c)
+  return sum
+}
+
+/**
+ * 按分组进度挑 icon：
+ *   全完成 → pass-filled（✓ in 圈）
+ *   部分完成 → circle-large-filled（实心圈）
+ *   一个都没完成 → circle-large-outline（空心圈）
+ *   无条目 → list-unordered（通用列表）
+ */
+function groupProgressIcon(g: GroupNode): string {
+  const total = countItems(g)
+  if (total === 0) return 'list-unordered'
+  if (g.totalOpen === 0) return 'pass-filled'
+  if (g.totalOpen === total) return 'circle-large-outline'
+  return 'circle-large-filled'
 }
 
