@@ -161,3 +161,51 @@ describe('parseTodoMarkdown — input variants', () => {
     expect(indents).toEqual([0, 1, 2, 1])
   })
 })
+
+describe('parseTodoMarkdown — edge cases', () => {
+  it('groups items before any heading under a virtual "(未分组)" group', () => {
+    const input = [
+      '- [ ] orphan one',
+      '- [ ] orphan two',
+      '## later',
+      '- [ ] categorized',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    expect(tree).toHaveLength(2)
+    const orphan = tree[0]
+    const later = tree[1]
+    if (orphan.kind !== 'group' || later.kind !== 'group') throw new Error('expected groups')
+    expect(orphan.title).toBe('(未分组)')
+    expect(orphan.line).toBe(-1)
+    expect(orphan.children).toHaveLength(2)
+    expect(later.children).toHaveLength(1)
+  })
+
+  it('returns empty array for empty input', () => {
+    expect(parseTodoMarkdown('')).toEqual([])
+  })
+
+  it('returns just groups when headings have no items', () => {
+    const tree = parseTodoMarkdown('## A\n## B\n')
+    expect(tree.map(n => n.kind === 'group' ? n.title : '')).toEqual(['A', 'B'])
+    expect(tree.every(n => n.kind === 'group' && n.children.length === 0)).toBe(true)
+  })
+
+  it('computes unique lineHash per line content', () => {
+    const input = [
+      '## G',
+      '- [ ] same text',
+      '- [ ] same text',
+      '- [ ] different',
+    ].join('\n')
+    const tree = parseTodoMarkdown(input)
+    const g = tree[0]
+    if (g.kind !== 'group') throw new Error('expected group')
+    const hashes = g.children
+      .filter((c): c is import('../types').ItemNode => c.kind === 'item')
+      .map(c => c.lineHash)
+    expect(hashes[0]).toBe(hashes[1]) // same input → same hash
+    expect(hashes[0]).not.toBe(hashes[2])
+    expect(hashes[0]).toHaveLength(8)
+  })
+})
