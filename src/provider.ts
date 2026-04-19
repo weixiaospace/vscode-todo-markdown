@@ -56,7 +56,7 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
     const label = g.emoji ? `${g.emoji} ${g.title}` : g.title
     const item = new vscode.TreeItem(label, this.resolveCollapsibleState(g))
     item.description = g.totalOpen > 0 ? `(${g.totalOpen})` : undefined
-    item.iconPath = g.emoji ? undefined : new vscode.ThemeIcon('list-unordered')
+    item.iconPath = new vscode.ThemeIcon('list-unordered')
     item.contextValue = 'todoGroup'
     item.tooltip = g.line >= 0 ? `Line ${g.line + 1}` : undefined
     return item
@@ -64,11 +64,8 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
 
   private itemToItem(n: ItemNode): vscode.TreeItem {
     const display = stripInlineMarkdown(n.text)
-    // 把 checkbox 图标嵌进 label、前导空格做缩进，让条目视觉上缩在 ## emoji 下方。
-    // iconPath 留空（走 label），否则 VSCode 会在固定图标列再画一次。
-    const glyph = n.checked ? '☑' : '☐'
-    const label = `${glyph}  ${display}`
-    const item = new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None)
+    const item = new vscode.TreeItem(display, vscode.TreeItemCollapsibleState.None)
+    item.iconPath = new vscode.ThemeIcon(n.checked ? 'check' : 'circle-large-outline')
     item.contextValue = n.checked ? 'todoItemDone' : 'todoItemPending'
     item.description = n.checked && this.state.showDoneDescription ? 'done' : undefined
     item.tooltip = n.text !== display
@@ -101,3 +98,4 @@ function hasAnyItem(n: TodoNode): boolean {
   for (const c of n.children) if (hasAnyItem(c)) return true
   return false
 }
+
