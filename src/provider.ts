@@ -63,11 +63,15 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
   }
 
   private itemToItem(n: ItemNode): vscode.TreeItem {
-    const item = new vscode.TreeItem(stripInlineMarkdown(n.text), vscode.TreeItemCollapsibleState.None)
-    item.iconPath = new vscode.ThemeIcon(n.checked ? 'check' : 'circle-large-outline')
+    const display = stripInlineMarkdown(n.text)
+    // 把 checkbox 图标嵌进 label、前导空格做缩进，让条目视觉上缩在 ## emoji 下方。
+    // iconPath 留空（走 label），否则 VSCode 会在固定图标列再画一次。
+    const glyph = n.checked ? '☑' : '☐'
+    const label = `  ${glyph}  ${display}`
+    const item = new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None)
     item.contextValue = n.checked ? 'todoItemDone' : 'todoItemPending'
     item.description = n.checked && this.state.showDoneDescription ? 'done' : undefined
-    item.tooltip = n.text !== stripInlineMarkdown(n.text)
+    item.tooltip = n.text !== display
       ? `${n.text}\nLine ${n.line + 1}${n.checked ? ' · done' : ''}`
       : `Line ${n.line + 1}${n.checked ? ' · done' : ''}`
     if (this.state.sourceUri) {
