@@ -71,7 +71,7 @@ export function startWatcher(
     }
   }
 
-  const fsWatcher = vscode.workspace.createFileSystemWatcher('**/*.md')
+  const fsWatcher = vscode.workspace.createFileSystemWatcher('**/TODO.md')
   context.subscriptions.push(
     fsWatcher,
     fsWatcher.onDidChange(uri => ifOurs(uri) && refresh()),

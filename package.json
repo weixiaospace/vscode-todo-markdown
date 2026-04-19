@@ -81,6 +81,11 @@
           "type": "number",
           "default": 1024,
           "description": "Skip parsing if TODO.md exceeds this size (KB)."
+        },
+        "todoMd.showDoneDescription": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show 'done' suffix on completed items in the tree."
         }
       }
     }
