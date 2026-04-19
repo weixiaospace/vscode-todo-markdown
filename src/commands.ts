@@ -29,6 +29,7 @@ export function registerCommands(
     vscode.commands.registerCommand('todoMd.createFile', createFile),
     vscode.commands.registerCommand('todoMd.reveal', reveal),
     vscode.commands.registerCommand('todoMd.toggle', toggle),
+    vscode.commands.registerCommand('todoMd.reopen', toggle),
   )
 }
 

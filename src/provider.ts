@@ -52,7 +52,7 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
   private itemToItem(n: ItemNode): vscode.TreeItem {
     const item = new vscode.TreeItem(n.text, vscode.TreeItemCollapsibleState.None)
     item.iconPath = new vscode.ThemeIcon(n.checked ? 'check' : 'circle-large-outline')
-    item.contextValue = 'todoItem'
+    item.contextValue = n.checked ? 'todoItemDone' : 'todoItemPending'
     item.description = n.checked && this.state.showDoneDescription ? 'done' : undefined
     item.tooltip = `Line ${n.line + 1}${n.checked ? ' · done' : ''}`
     if (this.state.sourceUri) {

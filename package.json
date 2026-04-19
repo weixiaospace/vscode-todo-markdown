@@ -49,7 +49,8 @@
       { "command": "todoMd.openFile",   "title": "Todo: Open TODO.md",       "icon": "$(go-to-file)" },
       { "command": "todoMd.createFile", "title": "Todo: Create TODO.md" },
       { "command": "todoMd.reveal",     "title": "Todo: Reveal Item" },
-      { "command": "todoMd.toggle",     "title": "Todo: Toggle Checkbox",    "icon": "$(check)" }
+      { "command": "todoMd.toggle",     "title": "Todo: Toggle Checkbox",    "icon": "$(check)" },
+      { "command": "todoMd.reopen",     "title": "Todo: Reopen Item",        "icon": "$(circle-slash)" }
     ],
     "menus": {
       "view/title": [
@@ -57,10 +58,13 @@
         { "command": "todoMd.openFile", "when": "view == todoMd.tree", "group": "navigation@2" }
       ],
       "view/item/context": [
-        { "command": "todoMd.toggle", "when": "view == todoMd.tree && viewItem == todoItem", "group": "inline" }
+        { "command": "todoMd.toggle", "when": "view == todoMd.tree && viewItem == todoItemPending", "group": "inline" },
+        { "command": "todoMd.reopen", "when": "view == todoMd.tree && viewItem == todoItemDone",    "group": "inline" }
       ],
       "commandPalette": [
-        { "command": "todoMd.reveal", "when": "false" }
+        { "command": "todoMd.reveal", "when": "false" },
+        { "command": "todoMd.toggle", "when": "false" },
+        { "command": "todoMd.reopen", "when": "false" }
       ]
     },
     "configuration": {
