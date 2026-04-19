@@ -1,4 +1,5 @@
 import * as vscode from 'vscode'
+import { stripInlineMarkdown } from './parser'
 import type { GroupNode, ItemNode, TodoNode } from './types'
 
 export type HideMode = 'never' | 'noItems' | 'noPending'
@@ -62,11 +63,13 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
   }
 
   private itemToItem(n: ItemNode): vscode.TreeItem {
-    const item = new vscode.TreeItem(n.text, vscode.TreeItemCollapsibleState.None)
+    const item = new vscode.TreeItem(stripInlineMarkdown(n.text), vscode.TreeItemCollapsibleState.None)
     item.iconPath = new vscode.ThemeIcon(n.checked ? 'check' : 'circle-large-outline')
     item.contextValue = n.checked ? 'todoItemDone' : 'todoItemPending'
     item.description = n.checked && this.state.showDoneDescription ? 'done' : undefined
-    item.tooltip = `Line ${n.line + 1}${n.checked ? ' · done' : ''}`
+    item.tooltip = n.text !== stripInlineMarkdown(n.text)
+      ? `${n.text}\nLine ${n.line + 1}${n.checked ? ' · done' : ''}`
+      : `Line ${n.line + 1}${n.checked ? ' · done' : ''}`
     if (this.state.sourceUri) {
       item.command = {
         command: 'todoMd.reveal',

@@ -132,3 +132,12 @@ function detectFence(line: string): '`' | '~' | null {
   if (!m) return null
   return m[2][0] === '`' ? '`' : '~'
 }
+
+/** 脱壳内联 markdown：**bold** / *italic* / `code` / [txt](url) → 纯文本 */
+export function stripInlineMarkdown(text: string): string {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*\s][^*]*?)\*/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+}
