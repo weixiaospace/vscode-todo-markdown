@@ -1,9 +1,9 @@
 {
-  "name": "keyan-vscode-todo",
+  "name": "todo-md",
   "displayName": "Todo (Markdown)",
   "description": "%ext.description%",
   "version": "0.1.0",
-  "publisher": "keyan",
+  "publisher": "WeiXiao",
   "license": "MIT",
   "icon": "media/icon.png",
   "homepage": "https://cnb.cool/dachengzhihui/keyan-work/tree/main/apps/vscode-todo",

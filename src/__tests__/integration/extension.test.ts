@@ -1,7 +1,7 @@
 import * as assert from 'node:assert'
 import * as vscode from 'vscode'
 
-const EXT_ID = 'keyan.keyan-vscode-todo'
+const EXT_ID = 'WeiXiao.todo-md'
 
 suite('Todo (Markdown) — activation & commands', () => {
   test('extension is present', () => {
