@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 **[English](CHANGELOG.md) | [中文](CHANGELOG.zh-CN.md)**
 
+## [0.1.2] - 2026-04-20
+
+### Changed
+- Marketplace icon (`media/icon.png`) re-rendered at 256×256 from SVG source (was a blurry 128×128 colormap PNG)
+- Activity Bar icon now uses a custom SVG (`media/icon.svg`, adapts to theme via `currentColor`) instead of the generic `$(checklist)` codicon
+- `todo.svg` viewBox tightened to the circle's bounding box — no built-in padding
+
 ## [0.1.1] - 2026-04-20
 
 ### Added

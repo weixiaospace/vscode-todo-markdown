@@ -2,7 +2,7 @@
   "name": "todo-markdown",
   "displayName": "Todo (Markdown)",
   "description": "%ext.description%",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "weixiao-space",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -42,7 +42,7 @@
         {
           "id": "todoMd",
           "title": "%activitybar.title%",
-          "icon": "$(checklist)"
+          "icon": "media/icon.svg"
         }
       ]
     },

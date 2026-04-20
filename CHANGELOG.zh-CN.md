@@ -6,6 +6,13 @@
 
 **[English](CHANGELOG.md) | [中文](CHANGELOG.zh-CN.md)**
 
+## [0.1.2] - 2026-04-20
+
+### 变更
+- Marketplace 头图（`media/icon.png`）从 SVG 重新渲染为 256×256（原先是糊的 128×128 colormap PNG）
+- 活动栏图标换成自定义 SVG（`media/icon.svg`，用 `currentColor` 跟随主题色），不再用通用的 `$(checklist)` codicon
+- `todo.svg` 的 viewBox 收紧到圆的外切正方形，去掉了原先的内边距
+
 ## [0.1.1] - 2026-04-20
 
 ### 新增
