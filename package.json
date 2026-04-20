@@ -3,13 +3,34 @@
   "displayName": "Todo (Markdown)",
   "description": "%ext.description%",
   "version": "0.1.0",
-  "private": true,
   "publisher": "keyan",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "homepage": "https://cnb.cool/dachengzhihui/keyan-work/tree/main/apps/vscode-todo",
+  "repository": {
+    "type": "git",
+    "url": "https://cnb.cool/dachengzhihui/keyan-work",
+    "directory": "apps/vscode-todo"
+  },
+  "bugs": {
+    "url": "https://cnb.cool/dachengzhihui/keyan-work/issues"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Other"
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "todo",
+    "markdown",
+    "task",
+    "checklist",
+    "sidebar",
+    "tree",
+    "gfm",
+    "checkbox"
   ],
   "main": "./out/extension.js",
   "l10n": "./l10n",
@@ -141,6 +162,10 @@
             "type": "string"
           },
           "default": [
+            "Decided against",
+            "Recently done",
+            "Completed",
+            "Archive",
             "已决定不做",
             "最近完成",
             "已完成"
@@ -181,7 +206,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:integration": "pnpm build && tsc -p tsconfig.test.json && vscode-test",
-    "package": "vsce package --no-dependencies"
+    "package": "vsce package --no-dependencies --baseContentUrl=https://cnb.cool/dachengzhihui/keyan-work/-/blob/main/apps/vscode-todo --baseImagesUrl=https://cnb.cool/dachengzhihui/keyan-work/-/raw/main/apps/vscode-todo"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",

@@ -12,3 +12,6 @@ tsconfig.test.json
 .gitignore
 .vscodeignore
 **/*.test.ts
+todo.svg
+image.png
+*.vsix
