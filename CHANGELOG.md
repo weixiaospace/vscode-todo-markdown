@@ -12,7 +12,7 @@ Initial release.
 - Activity Bar sidebar that reads workspace-root `TODO.md` and renders it as a `TreeView`
 - Two-level grouping from markdown headings: `## Section` and `### Subsection`
 - GFM checkbox parsing: `- [ ]` / `- [x]`, supports `*` and `+` bullet markers, `[x]` / `[X]` done states, CRLF / BOM / mixed indent, code fence (``` / ~~~) skipping, orphan items bucket
-- Inline markdown stripping for labels: `**bold**` / `*italic*` / `` `code` `` / `[link](url)` render as plain text; originals preserved in tooltip
+- Inline markdown stripping for labels: bold, italic, inline code, and link syntax render as plain text; originals preserved in tooltip
 - Click item to reveal source line in editor
 - Hover inline check button to toggle `[ ]` ↔ `[x]`, with line-hash optimistic lock against concurrent edits; auto-saves the file on success
 - Separate reopen button (⊘) for completed items

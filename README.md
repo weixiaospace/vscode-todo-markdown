@@ -82,4 +82,4 @@ pnpm package              # build keyan-vscode-todo-<version>.vsix
 
 ## License
 
-[MIT](LICENSE)
+MIT — see `LICENSE` in this repo.
