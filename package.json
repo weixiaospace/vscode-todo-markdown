@@ -6,15 +6,6 @@
   "publisher": "WeiXiao",
   "license": "MIT",
   "icon": "media/icon.png",
-  "homepage": "https://cnb.cool/dachengzhihui/keyan-work/tree/main/apps/vscode-todo",
-  "repository": {
-    "type": "git",
-    "url": "https://cnb.cool/dachengzhihui/keyan-work",
-    "directory": "apps/vscode-todo"
-  },
-  "bugs": {
-    "url": "https://cnb.cool/dachengzhihui/keyan-work/issues"
-  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -206,7 +197,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:integration": "pnpm build && tsc -p tsconfig.test.json && vscode-test",
-    "package": "vsce package --no-dependencies --baseContentUrl=https://cnb.cool/dachengzhihui/keyan-work/-/blob/main/apps/vscode-todo --baseImagesUrl=https://cnb.cool/dachengzhihui/keyan-work/-/raw/main/apps/vscode-todo"
+    "package": "vsce package --no-dependencies --allow-missing-repository"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
