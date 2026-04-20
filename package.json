@@ -2,7 +2,7 @@
   "name": "todo-markdown",
   "displayName": "Todo (Markdown)",
   "description": "%ext.description%",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "weixiao-space",
   "license": "MIT",
   "icon": "media/icon.png",

@@ -88,23 +88,58 @@ pnpm package                # vsce package → todo-markdown-<ver>.vsix
 
 `main` 默认追踪 `all/main`，所以平时 `git push` 一次即可双推。如果只想推一边，用 `git push github main` 或 `git push cnb main`。
 
-## 发布到 Marketplace
+## 发版流程
 
-前置：publisher ID `weixiao-space` 已在 https://aka.ms/vscode-create-publisher 注册（用 Microsoft 账号），PAT 已在 https://dev.azure.com 签发（Organization 选 "All accessible organizations"，Scopes 勾 Marketplace → Manage）。
+五步走：版本号 + CHANGELOG → 测试打包 → commit/tag/push → GitHub Release → VSCode Marketplace。`*.vsix` 在 `.gitignore` 里，构建产物不进 git 仓库，走 Release/Marketplace 分发。
 
-```sh
-vsce login weixiao-space   # 首次，输入 PAT
-pnpm publish                        # 其实是 vsce publish（见 package.json scripts）
-# 或 bump 版本：
-vsce publish patch        # 0.1.0 → 0.1.1
-vsce publish minor        # 0.1.0 → 0.2.0
-```
+1. **改版本号 + 更新 CHANGELOG**
+   ```sh
+   # 编辑 package.json "version"
+   # 编辑 CHANGELOG.md 和 CHANGELOG.zh-CN.md 加新条目 + 尾部链接
+   ```
 
-发布前清单：
-- [ ] `CHANGELOG.md` 加这版的 entry
-- [ ] `package.json` 里 `version` 手动改过（或用 `vsce publish <semver>`）
-- [ ] `pnpm package` 本地跑一遍，核对 `.vsix` 文件列表没多打无关内容
-- [ ] `pnpm test` 和 `pnpm test:integration` 都绿
+2. **测试 + 打包**
+   ```sh
+   pnpm test && pnpm test:integration && pnpm package
+   ```
+   核对 `todo-markdown-<ver>.vsix` 文件列表（`vsce ls` 可预览）。
+
+3. **提交 + 推 tag**
+   ```sh
+   git add -A && git commit -m "feat: x.y.z — <一句话概述>"
+   git push                              # main 默认追踪 all/main，会同推 github + cnb
+   git tag -a vX.Y.Z -m "Release X.Y.Z — <概述>"
+   git push github vX.Y.Z                # 只 GitHub 需要 tag，cnb 不用
+   ```
+
+4. **提取 release notes + 创建 GitHub Release**
+   ```sh
+   # 从 CHANGELOG 抽本版本段落到 /tmp（sed 删最后一行避免带进下一版本标题）
+   sed -n '/## \[X.Y.Z\]/,/## \[/p' CHANGELOG.md | sed '$d' > /tmp/release-notes-X.Y.Z.md
+
+   gh release create vX.Y.Z todo-markdown-X.Y.Z.vsix \
+     --title "vX.Y.Z — <概述>" \
+     --notes-file /tmp/release-notes-X.Y.Z.md \
+     --repo weixiaospace/vscode-todo-markdown
+   ```
+
+5. **发布到 VSCode Marketplace**
+   ```sh
+   # 发上一步打好的同一个 vsix，不重新打包
+   pnpm exec vsce publish --packagePath todo-markdown-X.Y.Z.vsix
+
+   # 或让 vsce 自动 bump + 打包 + 发布（一步到位）
+   # pnpm exec vsce publish patch    # 0.1.0 → 0.1.1
+   # pnpm exec vsce publish minor    # 0.1.0 → 0.2.0
+   ```
+   1-2 分钟后生效：`https://marketplace.visualstudio.com/items?itemName=weixiao-space.todo-markdown`
+
+前置（一次性）：
+- Publisher ID `weixiao-space` 在 https://aka.ms/vscode-create-publisher 注册（Microsoft 账号）
+- Azure DevOps PAT：`Organization = All accessible organizations`，`Scopes = Marketplace → Manage`
+- `pnpm exec vsce login weixiao-space`（录入 PAT，持久保存）
+- `gh auth login -h github.com -p ssh -w`（GitHub CLI 走 device flow 授权）
+- `package.json` 的 `publisher` 字段必须是 `weixiao-space`（和 Azure DevOps publisher 对齐）
 
 ## 已知限制 / 推迟决定
 

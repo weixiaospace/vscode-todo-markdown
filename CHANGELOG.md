@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 **[English](CHANGELOG.md) | [中文](CHANGELOG.zh-CN.md)**
 
+## [0.1.1] - 2026-04-20
+
+### Added
+- `repository`, `homepage`, `bugs` fields in `package.json` so the Marketplace listing links to source
+- Chinese docs: `README.zh-CN.md` and `CHANGELOG.zh-CN.md`, with language switch links in both locales
+- Marketplace / VS Code / License badges in README
+
+### Changed
+- `pnpm package` script no longer needs `--allow-missing-repository` (repo metadata now present); also now runs `pnpm build` first
+
 ## [0.1.0] - 2026-04-20
 
 Initial release.

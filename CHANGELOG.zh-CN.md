@@ -6,6 +6,16 @@
 
 **[English](CHANGELOG.md) | [中文](CHANGELOG.zh-CN.md)**
 
+## [0.1.1] - 2026-04-20
+
+### 新增
+- `package.json` 回填 `repository` / `homepage` / `bugs` 字段，Marketplace 详情页能直链到源码
+- 中文文档：`README.zh-CN.md` 和 `CHANGELOG.zh-CN.md`，中英互链
+- README 头部 Marketplace / VS Code / License 徽章
+
+### 变更
+- `pnpm package` 脚本移除 `--allow-missing-repository`（清单已带 repository 字段），并在打包前先跑 `pnpm build`
+
 ## [0.1.0] - 2026-04-20
 
 首个发布版本。
