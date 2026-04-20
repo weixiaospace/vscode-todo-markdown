@@ -41,16 +41,17 @@ function openSettings(): Thenable<unknown> {
 async function openFile(): Promise<void> {
   const resolved = resolveTodoFile()
   if (!resolved) {
-    vscode.window.showInformationMessage('No workspace folder.')
+    vscode.window.showInformationMessage(vscode.l10n.t('No workspace folder.'))
     return
   }
   if (!(await fileExists(resolved.uri))) {
+    const createLabel = vscode.l10n.t('Create')
     const action = await vscode.window.showInformationMessage(
-      `TODO.md not found at ${resolved.uri.fsPath}. Create it?`,
-      'Create',
-      'Cancel',
+      vscode.l10n.t('TODO.md not found at {0}. Create it?', resolved.uri.fsPath),
+      createLabel,
+      vscode.l10n.t('Cancel'),
     )
-    if (action === 'Create') await createFile()
+    if (action === createLabel) await createFile()
     return
   }
   const doc = await vscode.workspace.openTextDocument(resolved.uri)
@@ -60,7 +61,7 @@ async function openFile(): Promise<void> {
 async function createFile(): Promise<void> {
   const resolved = resolveTodoFile()
   if (!resolved) {
-    vscode.window.showInformationMessage('No workspace folder to create TODO.md in.')
+    vscode.window.showInformationMessage(vscode.l10n.t('No workspace folder to create TODO.md in.'))
     return
   }
   if (await fileExists(resolved.uri)) {
@@ -77,7 +78,7 @@ async function createFile(): Promise<void> {
     await vscode.window.showTextDocument(doc, { preview: false })
   } catch (err) {
     logger.error('createFile failed', err)
-    vscode.window.showErrorMessage(`Failed to create TODO.md: ${(err as Error).message}`)
+    vscode.window.showErrorMessage(vscode.l10n.t('Failed to create TODO.md: {0}', (err as Error).message))
   }
 }
 
@@ -104,7 +105,7 @@ async function reveal(args: RevealArgs | undefined): Promise<void> {
 async function toggle(arg: unknown): Promise<void> {
   const node = arg as Partial<ItemNode> | undefined
   if (!node || node.kind !== 'item') {
-    vscode.window.showInformationMessage('Open an item from the Todo tree to toggle it.')
+    vscode.window.showInformationMessage(vscode.l10n.t('Open an item from the Todo tree to toggle it.'))
     return
   }
   const resolved = resolveTodoFile()
@@ -149,5 +150,5 @@ async function toggle(arg: unknown): Promise<void> {
 }
 
 function warnStale(): void {
-  vscode.window.showWarningMessage('TODO.md has changed. Refreshing — please try again.')
+  vscode.window.showWarningMessage(vscode.l10n.t('TODO.md has changed. Refreshing — please try again.'))
 }

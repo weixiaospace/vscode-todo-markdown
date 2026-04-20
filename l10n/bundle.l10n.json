@@ -1,0 +1,14 @@
+{
+  "No workspace folder.": "No workspace folder.",
+  "TODO.md not found at {0}. Create it?": "TODO.md not found at {0}. Create it?",
+  "Create": "Create",
+  "Cancel": "Cancel",
+  "No workspace folder to create TODO.md in.": "No workspace folder to create TODO.md in.",
+  "Failed to create TODO.md: {0}": "Failed to create TODO.md: {0}",
+  "Open an item from the Todo tree to toggle it.": "Open an item from the Todo tree to toggle it.",
+  "TODO.md has changed. Refreshing — please try again.": "TODO.md has changed. Refreshing — please try again.",
+  "done": "done",
+  "Line {0}": "Line {0}",
+  "(uncategorized)": "(uncategorized)",
+  "(skipped parsing: {0} KB > {1} KB)": "(skipped parsing: {0} KB > {1} KB)"
+}

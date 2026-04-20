@@ -53,12 +53,13 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
   }
 
   private groupToItem(g: GroupNode): vscode.TreeItem {
-    const label = g.emoji ? `${g.emoji} ${g.title}` : g.title
+    const title = g.line < 0 ? vscode.l10n.t('(uncategorized)') : g.title
+    const label = g.emoji ? `${g.emoji} ${title}` : title
     const item = new vscode.TreeItem(label, this.resolveCollapsibleState(g))
     item.description = g.totalOpen > 0 ? `(${g.totalOpen})` : undefined
     item.iconPath = new vscode.ThemeIcon(groupProgressIcon(g))
     item.contextValue = 'todoGroup'
-    item.tooltip = g.line >= 0 ? `Line ${g.line + 1}` : undefined
+    item.tooltip = g.line >= 0 ? vscode.l10n.t('Line {0}', g.line + 1) : undefined
     return item
   }
 
@@ -67,10 +68,12 @@ export class TodoTreeProvider implements vscode.TreeDataProvider<TodoNode> {
     const item = new vscode.TreeItem(display, vscode.TreeItemCollapsibleState.None)
     item.iconPath = new vscode.ThemeIcon(n.checked ? 'check' : 'circle-large-outline')
     item.contextValue = n.checked ? 'todoItemDone' : 'todoItemPending'
-    item.description = n.checked && this.state.showDoneDescription ? 'done' : undefined
+    item.description = n.checked && this.state.showDoneDescription ? vscode.l10n.t('done') : undefined
+    const lineTip = vscode.l10n.t('Line {0}', n.line + 1)
+    const suffix = n.checked ? ` · ${vscode.l10n.t('done')}` : ''
     item.tooltip = n.text !== display
-      ? `${n.text}\nLine ${n.line + 1}${n.checked ? ' · done' : ''}`
-      : `Line ${n.line + 1}${n.checked ? ' · done' : ''}`
+      ? `${n.text}\n${lineTip}${suffix}`
+      : `${lineTip}${suffix}`
     if (this.state.sourceUri) {
       item.command = {
         command: 'todoMd.reveal',

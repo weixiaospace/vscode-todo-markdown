@@ -112,7 +112,7 @@ function tooLargeGroup(size: number, maxKb: number): import('./types').GroupNode
   return {
     kind: 'group',
     level: 1,
-    title: `(跳过解析：文件 ${(size / 1024).toFixed(1)} KB > ${maxKb} KB)`,
+    title: vscode.l10n.t('(skipped parsing: {0} KB > {1} KB)', (size / 1024).toFixed(1), maxKb),
     line: -1,
     children: [],
     totalOpen: 0,

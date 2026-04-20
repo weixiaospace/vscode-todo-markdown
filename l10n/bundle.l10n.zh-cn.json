@@ -1,0 +1,14 @@
+{
+  "No workspace folder.": "未打开工作区文件夹。",
+  "TODO.md not found at {0}. Create it?": "{0} 未找到 TODO.md。是否创建？",
+  "Create": "创建",
+  "Cancel": "取消",
+  "No workspace folder to create TODO.md in.": "没有工作区文件夹，无法创建 TODO.md。",
+  "Failed to create TODO.md: {0}": "创建 TODO.md 失败：{0}",
+  "Open an item from the Todo tree to toggle it.": "请在待办树里点击某条来切换勾选状态。",
+  "TODO.md has changed. Refreshing — please try again.": "TODO.md 内容已变化。已刷新，请再试一次。",
+  "done": "完成",
+  "Line {0}": "行 {0}",
+  "(uncategorized)": "（未分组）",
+  "(skipped parsing: {0} KB > {1} KB)": "（跳过解析：文件 {0} KB 超过上限 {1} KB）"
+}
