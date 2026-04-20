@@ -4,6 +4,8 @@ All notable changes to the "Todo (Markdown)" extension are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+**[English](CHANGELOG.md) | [中文](CHANGELOG.zh-CN.md)**
+
 ## [0.1.0] - 2026-04-20
 
 Initial release.

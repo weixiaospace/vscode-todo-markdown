@@ -78,6 +78,16 @@ pnpm package                # vsce package → todo-markdown-<ver>.vsix
 
 调试：用 VSCode 打开本 repo，按 `F5` 起 Extension Development Host。改完源码 Cmd+S 后触发 esbuild watch 重编；在 Host 窗口里 `Cmd+Shift+P → Developer: Reload Window` 即可看到新版。
 
+## Git 远端
+
+三个 remote（`.git/config`）：
+
+- `github` — `git@github.com:weixiaospace/vscode-todo-markdown.git`（SSH，fetch/push）
+- `cnb` — `https://cnb.cool/weixiao.space/vscode-todo-markdown`（fetch/push）
+- `all` — 聚合 remote，`url` 配了两条：`git push` 会**同时推到** github 与 cnb（fetch 用第一条 SSH）
+
+`main` 默认追踪 `all/main`，所以平时 `git push` 一次即可双推。如果只想推一边，用 `git push github main` 或 `git push cnb main`。
+
 ## 发布到 Marketplace
 
 前置：publisher ID `weixiao-space` 已在 https://aka.ms/vscode-create-publisher 注册（用 Microsoft 账号），PAT 已在 https://dev.azure.com 签发（Organization 选 "All accessible organizations"，Scopes 勾 Marketplace → Manage）。
@@ -102,7 +112,7 @@ vsce publish minor        # 0.1.0 → 0.2.0
 - `###` 三级以上标题不建 TreeView 节点（条目归到最近一个 `## / ###` 下）
 - 没有"新增 todo"命令——直接在编辑器里敲更快
 - 暂无 CI（GitHub Actions / 类似）配置，集成测靠本地跑
-- `repository` / `bugs` / `homepage` 字段已从 `package.json` 移除（原 monorepo URL 失效）；推荐在推到 GitHub / GitLab 后回填
+- `package.json` 里 `repository` / `bugs` / `homepage` 字段还没回填（远端已有，但尚未写进清单）；回填后可把 `package` 脚本的 `--allow-missing-repository` flag 去掉，然后发 patch 版
 
 ## 调试 tip
 

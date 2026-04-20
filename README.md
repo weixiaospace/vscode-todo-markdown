@@ -1,4 +1,15 @@
+<div align="center">
+
 # Todo (Markdown)
+
+[![Version](https://img.shields.io/visual-studio-marketplace/v/weixiao-space.todo-markdown?label=Marketplace&color=blue)](https://marketplace.visualstudio.com/items?itemName=weixiao-space.todo-markdown)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/weixiao-space.todo-markdown)](https://marketplace.visualstudio.com/items?itemName=weixiao-space.todo-markdown)
+[![VS Code](https://img.shields.io/badge/VS%20Code-%5E1.85.0-blue.svg?logo=visual-studio-code)](https://code.visualstudio.com/updates/v1_85)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+**[English](README.md) | [中文](README.zh-CN.md)**
+
+</div>
 
 A lightweight VS Code sidebar that reads your workspace's `TODO.md` and renders its checkbox list as a native tree view. Click to jump, click to check, click to uncheck. Built for **"vibe coding"** — quick task capture without leaving the editor.
 
