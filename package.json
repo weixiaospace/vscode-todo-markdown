@@ -8,7 +8,9 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
+  "categories": [
+    "Other"
+  ],
   "main": "./out/extension.js",
   "l10n": "./l10n",
   "activationEvents": [
@@ -46,28 +48,83 @@
       }
     ],
     "commands": [
-      { "command": "todoMd.refresh",      "title": "%cmd.refresh.title%",      "icon": "$(refresh)" },
-      { "command": "todoMd.openFile",     "title": "%cmd.openFile.title%",     "icon": "$(go-to-file)" },
-      { "command": "todoMd.openSettings", "title": "%cmd.openSettings.title%", "icon": "$(settings-gear)" },
-      { "command": "todoMd.createFile",   "title": "%cmd.createFile.title%" },
-      { "command": "todoMd.reveal",       "title": "%cmd.reveal.title%" },
-      { "command": "todoMd.toggle",       "title": "%cmd.toggle.title%",       "icon": "$(check)" },
-      { "command": "todoMd.reopen",       "title": "%cmd.reopen.title%",       "icon": "$(circle-slash)" }
+      {
+        "command": "todoMd.refresh",
+        "title": "%cmd.refresh.title%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "todoMd.openFile",
+        "title": "%cmd.openFile.title%",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "todoMd.openSettings",
+        "title": "%cmd.openSettings.title%",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "todoMd.createFile",
+        "title": "%cmd.createFile.title%"
+      },
+      {
+        "command": "todoMd.reveal",
+        "title": "%cmd.reveal.title%"
+      },
+      {
+        "command": "todoMd.toggle",
+        "title": "%cmd.toggle.title%",
+        "icon": "$(check)"
+      },
+      {
+        "command": "todoMd.reopen",
+        "title": "%cmd.reopen.title%",
+        "icon": "$(circle-slash)"
+      }
     ],
     "menus": {
       "view/title": [
-        { "command": "todoMd.refresh",      "when": "view == todoMd.tree", "group": "navigation@1" },
-        { "command": "todoMd.openFile",     "when": "view == todoMd.tree", "group": "navigation@2" },
-        { "command": "todoMd.openSettings", "when": "view == todoMd.tree", "group": "navigation@3" }
+        {
+          "command": "todoMd.refresh",
+          "when": "view == todoMd.tree",
+          "group": "navigation@1"
+        },
+        {
+          "command": "todoMd.openFile",
+          "when": "view == todoMd.tree",
+          "group": "navigation@2"
+        },
+        {
+          "command": "todoMd.openSettings",
+          "when": "view == todoMd.tree",
+          "group": "navigation@3"
+        }
       ],
       "view/item/context": [
-        { "command": "todoMd.toggle", "when": "view == todoMd.tree && viewItem == todoItemPending", "group": "inline" },
-        { "command": "todoMd.reopen", "when": "view == todoMd.tree && viewItem == todoItemDone",    "group": "inline" }
+        {
+          "command": "todoMd.toggle",
+          "when": "view == todoMd.tree && viewItem == todoItemPending",
+          "group": "inline"
+        },
+        {
+          "command": "todoMd.reopen",
+          "when": "view == todoMd.tree && viewItem == todoItemDone",
+          "group": "inline"
+        }
       ],
       "commandPalette": [
-        { "command": "todoMd.reveal", "when": "false" },
-        { "command": "todoMd.toggle", "when": "false" },
-        { "command": "todoMd.reopen", "when": "false" }
+        {
+          "command": "todoMd.reveal",
+          "when": "false"
+        },
+        {
+          "command": "todoMd.toggle",
+          "when": "false"
+        },
+        {
+          "command": "todoMd.reopen",
+          "when": "false"
+        }
       ]
     },
     "configuration": {
@@ -80,8 +137,14 @@
         },
         "todoMd.collapsedSections": {
           "type": "array",
-          "items": { "type": "string" },
-          "default": ["已决定不做", "最近完成", "已完成"],
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "已决定不做",
+            "最近完成",
+            "已完成"
+          ],
           "description": "%config.collapsedSections.description%"
         },
         "todoMd.maxFileSizeKb": {
@@ -96,7 +159,11 @@
         },
         "todoMd.hideEmptyGroups": {
           "type": "string",
-          "enum": ["never", "noItems", "noPending"],
+          "enum": [
+            "never",
+            "noItems",
+            "noPending"
+          ],
           "enumDescriptions": [
             "%config.hideEmptyGroups.never%",
             "%config.hideEmptyGroups.noItems%",
@@ -113,13 +180,18 @@
     "watch": "node esbuild.mjs --watch",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:integration": "pnpm build && tsc -p tsconfig.test.json && vscode-test",
     "package": "vsce package --no-dependencies"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.11.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^3.2.0",
     "esbuild": "^0.24.0",
+    "mocha": "^11.7.5",
     "typescript": "^5.4.0",
     "vitest": "^2.1.0"
   }

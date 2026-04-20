@@ -1,11 +1,14 @@
 .vscode/**
 .vscode-test/**
+.vscode-test.mjs
 src/**
 node_modules/**
+out/test/**
 out/**/*.map
 esbuild.mjs
 vitest.config.ts
 tsconfig.json
+tsconfig.test.json
 .gitignore
 .vscodeignore
 **/*.test.ts
