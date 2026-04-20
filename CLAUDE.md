@@ -1,10 +1,10 @@
-# todo-md — Claude Code 开发须知
+# todo-markdown — Claude Code 开发须知
 
 VS Code 扩展：侧栏读 `TODO.md` 并以 TreeView 展示 GFM checkbox 任务。目标是 "vibe coding" 的轻量待办面板，不做项目管理级的功能。
 
 ## 项目身份
 
-- Extension ID：`weixiao-space.todo-md`
+- Extension ID：`weixiao-space.todo-markdown`（marketplace 的 `name` 是 `todo-markdown`；本地目录仍叫 `todo-md`，不影响）
 - Display name：`Todo (Markdown)`
 - Publisher ID：`weixiao-space`（display name 可以是 "WeiXiao"，但 package.json 的 `publisher` 必须填 ID）
 - 由 `keyan-work` monorepo 的 `apps/vscode-todo/` 做 `git subtree split` 迁移而来，历史完整保留
@@ -73,7 +73,7 @@ pnpm watch                  # esbuild 监听模式
 pnpm typecheck              # tsc --noEmit
 pnpm test                   # vitest run（21 个单测）
 pnpm test:integration       # 打包 + 编译集成测 + 启一个干净 VSCode 跑 mocha
-pnpm package                # vsce package → todo-md-<ver>.vsix
+pnpm package                # vsce package → todo-markdown-<ver>.vsix
 ```
 
 调试：用 VSCode 打开本 repo，按 `F5` 起 Extension Development Host。改完源码 Cmd+S 后触发 esbuild watch 重编；在 Host 窗口里 `Cmd+Shift+P → Developer: Reload Window` 即可看到新版。

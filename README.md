@@ -77,7 +77,7 @@ pnpm build                # or pnpm watch
 # In VS Code, open this directory and press F5 to launch an Extension Development Host
 pnpm test                 # unit tests (vitest, parser logic)
 pnpm test:integration     # integration tests (@vscode/test-cli, spawns VS Code)
-pnpm package              # build keyan-vscode-todo-<version>.vsix
+pnpm package              # build todo-markdown-<version>.vsix
 ```
 
 ## License
