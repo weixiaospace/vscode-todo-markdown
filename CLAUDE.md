@@ -111,8 +111,7 @@ vsce publish minor        # 0.1.0 → 0.2.0
 - 只扫 workspace 根的 `TODO.md`（可配置路径），不扫多级目录 md 文件
 - `###` 三级以上标题不建 TreeView 节点（条目归到最近一个 `## / ###` 下）
 - 没有"新增 todo"命令——直接在编辑器里敲更快
-- 暂无 CI（GitHub Actions / 类似）配置，集成测靠本地跑
-- `package.json` 里 `repository` / `bugs` / `homepage` 字段还没回填（远端已有，但尚未写进清单）；回填后可把 `package` 脚本的 `--allow-missing-repository` flag 去掉，然后发 patch 版
+- 暂无 CI（GitHub Actions / 类似）配置，集成测和发布靠本地跑 `pnpm test:integration` / `vsce publish`
 
 ## 调试 tip
 
